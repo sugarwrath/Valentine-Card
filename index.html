@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<title>Our First Valentine's Day 💖</title>
+
+<style>
+
+/* GLOBAL */
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+padding:0;
+font-family:'Poppins',sans-serif;
+overflow:hidden;
+color:white;
+text-align:center;
+}
+
+/* HOME */
+#home{
+position:fixed;
+inset:0;
+padding:20px;
+background:linear-gradient(45deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3,#54a0ff);
+background-size:400% 400%;
+animation:gradientShift 10s ease infinite;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+
+@keyframes gradientShift{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* RESPONSIVE TEXT */
+h1{
+font-family:'Great Vibes',cursive;
+font-size:clamp(30px,6vw,60px);
+animation:pulse 4s infinite;
+}
+
+h2{
+font-family:'Great Vibes',cursive;
+font-size:clamp(22px,5vw,40px);
+animation:pulse 5s infinite;
+}
+
+p{
+font-size:clamp(14px,3.5vw,18px);
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
+}
+
+/* BUTTON */
+button{
+background:#ff6b6b;
+color:white;
+border:none;
+padding:14px 22px;
+font-size:16px;
+border-radius:50px;
+cursor:pointer;
+transition:0.3s;
+
+width:160px;
+min-width:160px;
+max-width:160px;
+}
+
+
+.button-container{
+display:flex;
+flex-direction:row;
+gap:14px;
+margin-top:20px;
+justify-content:center;
+align-items:center;
+flex-wrap:wrap;
+}
+
+
+/* MY WISH */
+#wish{
+position:fixed;
+inset:0;
+padding:20px;
+background:linear-gradient(45deg,#ff9a9e,#fad0c4,#fad0c4);
+background-size:400% 400%;
+animation:gradientShift 10s ease infinite;
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+overflow:auto;
+}
+
+.text-box{
+background:rgba(0,0,0,0.35);
+padding:20px;
+border-radius:18px;
+width:100%;
+max-width:650px;
+line-height:1.8;
+text-align:left;
+font-size:clamp(14px,3.7vw,18px);
+}
+
+/* FINAL BUTTON */
+.final-button{
+margin-top:24px;
+background:#ff6b6b;
+padding:14px 24px;
+border-radius:40px;
+opacity:0;
+transform:translateY(40px);
+transition:all 1.2s ease;
+pointer-events:none;
+}
+
+.final-button.show{
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
+}
+
+/* ENDING */
+.ending-overlay{
+position:fixed;
+inset:0;
+background:black;
+opacity:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+transition:opacity 2s ease;
+pointer-events:none;
+}
+
+.ending-overlay.show{opacity:1;}
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="dontcry.mp3" loop autoplay muted></audio>
+
+<!-- HOME -->
+<div id="home">
+<h1>Dear, Melyana Safira Lamusu</h1>
+<h2>Happy Valentine's Day and 4th Monthsary 💖</h2>
+
+<p>I Love You So Muchiee Muchh My Baby Queen!!💕💕</p>
+<p>Will you be my valentine for my lifetime?</p>
+
+<div class="button-container">
+<button onclick="sayYes()">MAUUUU!!</button>
+<button id="noBtn">Tidak mau</button>
+</div>
+
+<div id="romanticText" style="display:none;font-size:1.6em;margin-top:20px;">
+AKU TAU KAMU PASTI MAU 💕
+</div>
+</div>
+
+<!-- MY WISH -->
+<div id="wish">
+<h1>My Wish For You 💖</h1>
+<div class="text-box" id="text"></div>
+
+<div style="margin-top:20px;font-size:1.6em;opacity:0;" id="finalText">
+I love you, today, tomorrow, and forever ❤️
+</div>
+
+<button class="final-button" id="hugButton" onclick="startEnding()">
+Peluk online akuu? 🤗
+</button>
+</div>
+
+<!-- ENDING -->
+<div class="ending-overlay" id="ending">
+<div style="font-size:clamp(36px,8vw,70px);font-family:'Great Vibes';" id="endingMain">
+Stay with me forever?
+</div>
+<div style="margin-top:18px;font-size:clamp(18px,4vw,26px);" id="endingSub">
+I choose you. Always.
+</div>
+</div>
+
+<script>
+const music=document.getElementById("bgMusic");
+
+/* TOMBOL "TIDAK MAU" KABUR - STABIL */
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+
+    const maxX = window.innerWidth - 180;
+    const maxY = window.innerHeight - 80;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    // KUNCI UKURAN AGAR TIDAK MEMBESAR
+    noBtn.style.width = "160px";
+});
+
+
+
+window.addEventListener("load",()=>{
+music.volume=0.35;
+music.play().catch(()=>{});
+});
+
+document.addEventListener("click",()=>{
+music.muted=false;
+music.play();
+},{once:true});
+
+/* PINDAH PAGE */
+function sayYes(){
+document.getElementById("romanticText").style.display="block";
+
+setTimeout(()=>{
+document.getElementById("home").style.display="none";
+document.getElementById("wish").style.display="flex";
+startTyping();
+},2000);
+}
+
+/* TEXT WISH ASLI KAMU */
+const paragraphs=[
+`Terima kasih sudah mau terima aku jadi pasangan kamu.
+Terima kasih sudah sabar menghadapi aku.
+Terima kasih sudah jadi alasan aku punya impian dan mau jadi lebih baik lagi.`,
+
+`Selama apapun aku berproses, kamu mau tetep temenin aku kan?
+Aku selalu pengen jadi yang terbaik buat kamu.`,
+
+`And then my wish for you,
+I wish kita bisa se happy kemarin...`,
+
+`Im sorry for being too clingy,
+but that's the sign i still love and care for you.`,
+
+`Dan satu hal yang pasti...
+Aku selalu sayang kamu ❤️`
+];
+
+let pIndex=0;
+let charIndex=0;
+const textBox=document.getElementById("text");
+
+function startTyping(){typeParagraph();}
+
+function typeParagraph(){
+if(pIndex<paragraphs.length){
+if(charIndex===0){
+const p=document.createElement("p");
+textBox.appendChild(p);
+}
+const currentParagraph=textBox.lastChild;
+currentParagraph.innerHTML+=paragraphs[pIndex].charAt(charIndex);
+charIndex++;
+
+if(charIndex<paragraphs[pIndex].length){
+setTimeout(typeParagraph,70);
+}else{
+pIndex++;
+charIndex=0;
+setTimeout(typeParagraph,1000);
+}
+}else{
+document.getElementById("finalText").style.opacity="1";
+setTimeout(()=>{
+document.getElementById("hugButton").classList.add("show");
+},1500);
+}
+}
+
+/* ENDING */
+function startEnding(){
+document.getElementById("ending").classList.add("show");
+}
+</script>
+
+</body>
+</html>
